@@ -166,6 +166,29 @@ declare module Immutable {
     set(index: number, value: T): List<T>;
 
     /**
+     * Returns a new Iterable of the same type with values passed through a
+     * `mapper` function.
+     *
+     *     Seq({ a: 1, b: 2 }).map(x => 10 * x)
+     *     // Seq { a: 10, b: 20 }
+     *
+     */
+    map<M>(
+      mapper: (value?: T, key?: number, iter?: /*this*/List<T>) => M,
+      context?: any
+    ): /*this*/List<M>;
+
+    /**
+     * Flat-maps the Iterable, returning an Iterable of the same type.
+     *
+     * Similar to `iter.map(...).flatten(true)`.
+     */
+    flatMap<MT>(
+      mapper: (value?: T, key?: number, iter?: /*this*/List<T>) => List<MT>,
+      context?: any
+    ): /*this*/List<MT>;
+
+    /**
      * Returns a new List which excludes this `index` and with a size 1 less
      * than this List. Values at indices above `index` are shifted down by 1 to
      * fill the position.
@@ -472,6 +495,11 @@ declare module Immutable {
      * key already exists in this Map, it will be replaced.
      */
     set(key: K, value: V): this;
+
+    map<M>(
+      mapper: (value?: V, key?: K, iter?: this) => M,
+      context?: any
+    ): Map<K, M>;
 
     /**
      * Returns a new Map which excludes this `key`.
@@ -1964,7 +1992,7 @@ declare module Immutable {
     map<M>(
       mapper: (value?: V, key?: K, iter?: this) => M,
       context?: any
-    ): this;
+    ): Iterable<K, M>;
 
     /**
      * Returns a new Iterable of the same type with only the entries for which
@@ -2200,13 +2228,13 @@ declare module Immutable {
      * Similar to `iter.map(...).flatten(true)`.
      */
     flatMap<MK, MV>(
-      mapper: (value?: V, key?: K, iter?: this) => Iterable<MK, MV>,
+      mapper: (value?: V, key?: K, iter?: /*this*/Iterable<K, V>) => Iterable<MK, MV>,
       context?: any
-    ): this;
+    ): /*this*/Iterable<MK, MV>;
     flatMap<MK, MV>(
-      mapper: (value?: V, key?: K, iter?: this) => /*iterable-like*/any,
+      mapper: (value?: V, key?: K, iter?: /*this*/Iterable<K, V>) => /*iterable-like*/any,
       context?: any
-    ): this;
+    ): /*this*/Iterable<MK, MV>;
 
 
     // Reducing a value

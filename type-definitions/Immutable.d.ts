@@ -1962,9 +1962,9 @@ declare module Immutable {
      *
      */
     map<M>(
-      mapper: (value?: V, key?: K, iter?: this) => M,
+      mapper: (value?: V, key?: K, iter?: /*this*/Iterable<K, V>) => M,
       context?: any
-    ): this;
+    ): /*this*/Iterable<K, M>;
 
     /**
      * Returns a new Iterable of the same type with only the entries for which
@@ -2200,13 +2200,13 @@ declare module Immutable {
      * Similar to `iter.map(...).flatten(true)`.
      */
     flatMap<MK, MV>(
-      mapper: (value?: V, key?: K, iter?: this) => Iterable<MK, MV>,
+      mapper: (value?: V, key?: K, iter?: /*this*/Iterable<K, V>) => Iterable<MK, MV>,
       context?: any
-    ): this;
+    ): /*this*/Iterable<MK, MV>;
     flatMap<MK, MV>(
-      mapper: (value?: V, key?: K, iter?: this) => /*iterable-like*/any,
+      mapper: (value?: V, key?: K, iter?: /*this*/Iterable<K, V>) => /*iterable-like*/any,
       context?: any
-    ): this;
+    ): /*this*/Iterable<MK, MV>;
 
 
     // Reducing a value
